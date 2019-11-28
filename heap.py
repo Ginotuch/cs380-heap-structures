@@ -51,32 +51,36 @@ class Heap:
         self._heapify_down(i)
         return deleted
 
-    def _heapify_down(self, i: int) -> None:  # todo: unsure if minimising left/right child matters
+    def _heapify_down(self, i: int) -> None:
         while 2 * i + 1 < self.size:
             left_child_i = 2 * i + 1
             right_child_i = 2 * i + 2
             big_child_i = left_child_i
             if right_child_i < self.size and self._array[right_child_i] < self._array[left_child_i]:
                 big_child_i = right_child_i
-            parent = self._array[i]
-            child = self._array[big_child_i]
-            if parent > child:
-                self._positions[parent[1]] = big_child_i
-                self._positions[child[1]] = i
-                self._array[i] = child
-                self._array[big_child_i] = parent
-                i = big_child_i
-            else:
+            if not self._swap(i, big_child_i):
                 return
+            i = big_child_i
 
     def _heapify_up(self, i: int) -> None:
-        while i > 0 and (parent := self._array[(parent_i := (i - 1) >> 1)]) > (child := self._array[i]):
-            self._positions[parent[1]] = i
-            self._positions[child[1]] = parent_i
-            self._array[parent_i] = child
-            self._array[i] = parent
+        while i > 0:
+            parent_index: int = (i - 1) >> 1
+            if not self._swap(parent_index, i):
+                return
+            i = parent_index
 
-            i = parent_i
+    def _swap(self, parent_index: int, child_index: int) -> bool:  # If no swap happens then heapify is complete
+        parent: Tuple[Any, Any] = self._array[parent_index]
+        child: Tuple[Any, Any] = self._array[child_index]
+
+        if parent > child:
+            self._positions[parent[1]] = child_index
+            self._positions[child[1]] = parent_index
+            self._array[parent_index] = child
+            self._array[child_index] = parent
+            return True
+        else:
+            return False
 
 
 if __name__ == "__main__":
