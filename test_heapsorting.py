@@ -28,17 +28,17 @@ class TestSorting(unittest.TestCase):
         random.seed(16484489)
         for x in range(20):
             heap_instance = Heap()
-            list_to_test = sorted([(x, x) for x in random.sample(range(1, 10 ** 9), 10 ** 3)])
+            list_to_test = [(x, x) for x in random.sample(range(1, 10 ** 9), 10 ** 3)]
             retrieved_list = TestSorting.insert_and_extract(heap_instance, list_to_test)
-            self.assertEqual(list_to_test, retrieved_list)
+            self.assertEqual(sorted(list_to_test), retrieved_list)
 
     def test_random_list_same_instance(self):
         random.seed(16484489)
         heap_instance = Heap()
         for x in range(20):
-            list_to_test = sorted([(x, x) for x in random.sample(range(1, 10 ** 9), 10 ** 3)])
+            list_to_test = [(x, x) for x in random.sample(range(1, 10 ** 9), 10 ** 3)]
             retrieved_list = TestSorting.insert_and_extract(heap_instance, list_to_test)
-            self.assertEqual(list_to_test, retrieved_list)
+            self.assertEqual(sorted(list_to_test), retrieved_list)
 
     @staticmethod
     def insert_and_extract(heap_instance: Heap, list_to_insert: List[Tuple[Any, Any]]) -> List[Tuple[Any, Any]]:
