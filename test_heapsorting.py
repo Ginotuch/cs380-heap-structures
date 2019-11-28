@@ -18,7 +18,7 @@ class TestSorting(unittest.TestCase):
         retrieved_list = TestSorting.insert_and_extract(heap_instance, list_to_test)
         self.assertEqual(list_to_test[::-1], retrieved_list)
 
-    def test_initialised_list(self):
+    def test_simple_initialised_list(self):
         list_to_test = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
         heap_instance = Heap(list_to_test[:])
         retrieved_list = []
@@ -28,8 +28,16 @@ class TestSorting(unittest.TestCase):
 
     def test_random_list(self):
         random.seed(16484489)
-        for x in range(10):
+        for x in range(20):
             heap_instance = Heap()
+            list_to_test = sorted([(x, x) for x in random.sample(range(1, 10 ** 9), 10 ** 3)])
+            retrieved_list = TestSorting.insert_and_extract(heap_instance, list_to_test)
+            self.assertEqual(list_to_test, retrieved_list)
+
+    def test_random_list_same_instance(self):
+        random.seed(16484489)
+        heap_instance = Heap()
+        for x in range(20):
             list_to_test = sorted([(x, x) for x in random.sample(range(1, 10 ** 9), 10 ** 3)])
             retrieved_list = TestSorting.insert_and_extract(heap_instance, list_to_test)
             self.assertEqual(list_to_test, retrieved_list)
