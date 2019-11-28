@@ -1,7 +1,10 @@
+from typing import Tuple, List, Dict, Any
+
+
 class Heap:
     def __init__(self, data=None):
-        self._array: list = []
-        self._positions: dict = {}
+        self._array: List[Tuple[Any, Any]] = []
+        self._positions: Dict[Any, int] = {}
         self.size: int = 0
         try:
             for item in data:
@@ -26,7 +29,7 @@ class Heap:
             self.size += 1
             self._heapify_up(self.size - 1)
 
-    def remove(self, value) -> tuple:
+    def remove(self, value) -> Tuple[Any, Any]:
         try:
             position: int = self._positions[value]
         except KeyError:
@@ -34,11 +37,11 @@ class Heap:
         else:
             return self._delete(position)
 
-    def pop(self) -> tuple:
+    def pop(self) -> Tuple[Any, Any]:
         return self._delete(0)
 
-    def _delete(self, i: int) -> tuple:
-        deleted: tuple = self._array[i]
+    def _delete(self, i: int) -> Tuple[Any, Any]:
+        deleted: Tuple[Any, Any] = self._array[i]
         self._array[i] = self._array[-1]
         self._positions[self._array[i][1]] = i  # update position of swapped element
         self._array.pop()
