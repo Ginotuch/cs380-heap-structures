@@ -18,10 +18,10 @@ class Heap:
         if value in self._positions:
             position = self._positions[value]
             if key > self._array[position][0]:
-                self._array[position][0] = key
+                self._array[position] = (key, self._array[position][1])
                 self._heapify_down(position)
             else:
-                self._array[position][0] = key
+                self._array[position] = (key, self._array[position][1])
                 self._heapify_up(position)
         else:
             self._positions[value] = self.size
