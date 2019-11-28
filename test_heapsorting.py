@@ -21,9 +21,7 @@ class TestSorting(unittest.TestCase):
     def test_simple_initialised_list(self):
         list_to_test = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
         heap_instance = Heap(list_to_test[:])
-        retrieved_list = []
-        while heap_instance.size > 0:
-            retrieved_list.append(heap_instance.pop())
+        retrieved_list = TestSorting.retrieve(heap_instance)
         self.assertEqual(list_to_test, retrieved_list)
 
     def test_random_list(self):
@@ -46,6 +44,10 @@ class TestSorting(unittest.TestCase):
     def insert_and_extract(heap_instance: Heap, list_to_insert: List[Tuple[Any, Any]]) -> List[Tuple[Any, Any]]:
         for number_tuple in list_to_insert:
             heap_instance.push(number_tuple[0], number_tuple[1])
+        return TestSorting.retrieve(heap_instance)
+
+    @staticmethod
+    def retrieve(heap_instance: Heap) -> List[Tuple[Any, Any]]:
         retrieved_list: List[Tuple[Any, Any]] = []
         while heap_instance.size > 0:
             retrieved_list.append(heap_instance.pop())
