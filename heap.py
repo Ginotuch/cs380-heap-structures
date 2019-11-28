@@ -6,13 +6,14 @@ class Heap:
         self._array: List[Tuple[Any, Any]] = []
         self._positions: Dict[Any, int] = {}
         self.size: int = 0
-        try:
-            for item in data:
-                if len(item) != 2:
-                    raise Exception("Items must be in format: (key, value) where key is a comparable priority")
-                self.push(item[0], item[1])
-        except TypeError as e:
-            raise e
+        if data is not None:
+            try:
+                for item in data:
+                    if len(item) != 2:
+                        raise Exception("Items must be in format: (key, value) where key is a comparable priority")
+                    self.push(item[0], item[1])
+            except TypeError as e:
+                raise e
 
     def push(self, key, value) -> None:  # will also update priority if already in the heap
         if value in self._positions:

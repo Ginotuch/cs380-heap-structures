@@ -78,7 +78,7 @@ target/
 # celery beat schedule file
 celerybeat-schedule
 
-# SageMath parsed files
+# SageMath parsed filestestfile.py
 *.sage.py
 
 # Environments
@@ -110,4 +110,4 @@ venv.bak/
 .idea/
 
 # personal code snippit tests
-testfile.py
+code_snippet_tests.py
