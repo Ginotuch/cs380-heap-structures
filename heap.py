@@ -16,7 +16,7 @@ class Heap:
                 raise e
 
     def push(self, key, value) -> None:  # will also update priority if already in the heap
-        if value in self._positions:
+        if value in self._positions:  # If the value is already in the heap, update the priority
             position = self._positions[value]
             if key > self._array[position][0]:
                 self._array[position] = (key, self._array[position][1])
@@ -24,7 +24,7 @@ class Heap:
             else:
                 self._array[position] = (key, self._array[position][1])
                 self._heapify_up(position)
-        else:
+        else:  # otherwise add the new element
             self._positions[value] = self.size
             self._array.append((key, value))
             self.size += 1
@@ -40,6 +40,9 @@ class Heap:
 
     def pop(self) -> Tuple[Any, Any]:
         return self._delete(0)
+
+    def peek(self) -> Tuple[Any, Any]:
+        return self._array[0]
 
     def _delete(self, i: int) -> Tuple[Any, Any]:
         deleted: Tuple[Any, Any] = self._array[i]
@@ -59,14 +62,14 @@ class Heap:
             if right_child_i < self.size and self._array[right_child_i] < self._array[left_child_i]:
                 big_child_i = right_child_i
             if not self._swap(i, big_child_i):
-                return
+                break
             i = big_child_i
 
     def _heapify_up(self, i: int) -> None:
         while i > 0:
             parent_index: int = (i - 1) >> 1
             if not self._swap(parent_index, i):
-                return
+                break
             i = parent_index
 
     def _swap(self, parent_index: int, child_index: int) -> bool:  # If no swap happens then heapify is complete
