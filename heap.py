@@ -44,6 +44,9 @@ class Heap:
     def peek(self) -> Tuple[Any, Any]:
         return self._array[0]
 
+    def get_key(self, value):
+        return self._array[self._positions[value]][0]
+
     def _delete(self, i: int) -> Tuple[Any, Any]:
         deleted: Tuple[Any, Any] = self._array[i]
         self._array[i] = self._array[-1]
