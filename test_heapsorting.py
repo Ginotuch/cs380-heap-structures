@@ -49,13 +49,14 @@ class TestSorting(unittest.TestCase):
             index_to_delete = random.randrange(0, len(list_to_test))
             deleted_element = list_to_test.pop(index_to_delete)
             heap_instance.remove(deleted_element[1])
+            self.assertEqual(heap_instance.peek(), min(list_to_test))
             retrieved_list = TestSorting.insert_and_extract(heap_instance, list_to_test)
             self.assertEqual(sorted(list_to_test), retrieved_list, "Random seed: ({})".format(str(self._seed)))
 
     def test_random_deletion_same_insatnce(self):
         """
-        Will randomly delete 10 to 90 elements from a list, and the heap
-        then verify that the heap deleted these elements correctly, allowing
+        Will randomly delete 10 to 90 elements from a list and also from the heap
+        then verify that the heap deleted these elements correctly, checking
         for sorted extraction of the elements.
         """
         random.seed(self._seed)
@@ -66,6 +67,7 @@ class TestSorting(unittest.TestCase):
                 index_to_delete = random.randrange(0, len(list_to_test))
                 deleted_element = list_to_test.pop(index_to_delete)
                 heap_instance.remove(deleted_element[1])
+            self.assertEqual(heap_instance.peek(), min(list_to_test))
             retrieved_list = TestSorting.insert_and_extract(heap_instance, list_to_test)
             self.assertEqual(sorted(list_to_test), retrieved_list, "Random seed: ({})".format(str(self._seed)))
 
