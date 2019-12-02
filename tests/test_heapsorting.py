@@ -1,5 +1,5 @@
 import unittest
-from typing import Tuple, List, Dict, Any
+from typing import Tuple, List, Any
 from heap import Heap
 import random
 
