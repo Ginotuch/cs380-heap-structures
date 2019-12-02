@@ -30,8 +30,8 @@ class Dijkstra:
                 self.dist[u] = t1
                 break
 
-            for node in self.adjacency_list[u]:
-                t2 = t1 + 1
+            for node, cost in self.adjacency_list[u]:
+                t2 = t1 + cost
                 if self.colour[node] == self.white:
                     self.colour[node] = self.grey
                     self.pq.push(t2, node)
@@ -43,6 +43,6 @@ class Dijkstra:
 
 
 if __name__ == '__main__':
-    d = Dijkstra()
-    d.start()
-    print()
+    while True:
+        d = Dijkstra(random.randrange(10**3, 10**5))
+        d.start()
