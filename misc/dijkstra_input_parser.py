@@ -20,8 +20,9 @@ def write_adj_lists(file):
                     node_x = coords[x]
                     node_y = coords[y]
                     dist = e_dist(node_x, node_y)
-                    adj_list[x].append((y, dist))
-                    adj_list[y].append((x, dist))
+                    if dist != math.inf:
+                        adj_list[x].append((y, dist))
+                        adj_list[y].append((x, dist))
             adj_lists.append(adj_list)
     with open("adj_list.data", 'wb') as f:
         pickle.dump(adj_lists, f)
