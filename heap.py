@@ -2,9 +2,10 @@ from typing import Tuple, List, Dict, Any, Iterable
 
 
 class Heap:
-    def __init__(self, data: Iterable[Tuple[Any, Any]] = None):
+    def __init__(self, data: Iterable[Tuple[Any, Any]] = None, allow_duplicates: bool = False):
         self._array: List[Tuple[Any, Any]] = []
         self._positions: Dict[Any, int] = {}
+        self._duplicates: bool = allow_duplicates
         self.size: int = 0
         if data is not None:
             try:
@@ -16,7 +17,7 @@ class Heap:
                 raise e
 
     def push(self, key, value) -> None:  # will also update priority if already in the heap
-        if value in self._positions:  # If the value is already in the heap, update the priority
+        if not self._duplicates and value in self._positions:  # If the value is already in the heap, update the priority
             position = self._positions[value]
             if key > self._array[position][0]:
                 self._array[position] = (key, self._array[position][1])
@@ -25,7 +26,8 @@ class Heap:
                 self._array[position] = (key, self._array[position][1])
                 self._heapify_up(position)
         else:  # otherwise add the new element
-            self._positions[value] = self.size
+            if self._duplicates:
+                self._positions[value] = self.size
             self._array.append((key, value))
             self.size += 1
             self._heapify_up(self.size - 1)
@@ -50,9 +52,11 @@ class Heap:
     def _delete(self, i: int) -> Tuple[Any, Any]:
         deleted: Tuple[Any, Any] = self._array[i]
         self._array[i] = self._array[-1]
-        self._positions[self._array[i][1]] = i  # update position of swapped element
+        if self._duplicates:
+            self._positions[self._array[i][1]] = i  # update position of swapped element
+            self._positions.pop(deleted[1])
         self._array.pop()
-        self._positions.pop(deleted[1])
+
         self.size -= 1
         self._heapify_down(i)
         return deleted
@@ -80,8 +84,9 @@ class Heap:
         child: Tuple[Any, Any] = self._array[child_index]
 
         if parent > child:
-            self._positions[parent[1]] = child_index
-            self._positions[child[1]] = parent_index
+            if self._duplicates:
+                self._positions[parent[1]] = child_index
+                self._positions[child[1]] = parent_index
             self._array[parent_index] = child
             self._array[child_index] = parent
             return True
