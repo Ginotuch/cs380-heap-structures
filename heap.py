@@ -1,8 +1,8 @@
-from typing import Tuple, List, Dict, Any
+from typing import Tuple, List, Dict, Any, Iterable
 
 
 class Heap:
-    def __init__(self, data=None):
+    def __init__(self, data: Iterable[Tuple[Any, Any]] = None):
         self._array: List[Tuple[Any, Any]] = []
         self._positions: Dict[Any, int] = {}
         self.size: int = 0
@@ -44,7 +44,7 @@ class Heap:
     def peek(self) -> Tuple[Any, Any]:
         return self._array[0]
 
-    def get_key(self, value):
+    def get_key(self, value) -> Any:
         return self._array[self._positions[value]][0]
 
     def _delete(self, i: int) -> Tuple[Any, Any]:

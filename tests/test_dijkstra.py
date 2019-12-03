@@ -25,10 +25,10 @@ class TestDijkstra(unittest.TestCase):
                 d = Dijkstra(adj_list=adj_list)
                 dist_temp = d.start()
                 if dist_temp == math.inf:
-                    dist_temp = str(-1)
+                    distance_text: str = str(-1)
                 else:
-                    dist_temp = "{:.2f}".format(dist_temp)
-                distance_returns.append(dist_temp)
+                    distance_text: str = "{:.2f}".format(dist_temp)
+                distance_returns.append(distance_text)
             self.assertEqual(distance_returns, answer_string, "Failed on:" + str(pair))
 
 
