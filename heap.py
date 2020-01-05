@@ -26,7 +26,7 @@ class Heap:
                 self._array[position] = (key, self._array[position][1])
                 self._heapify_up(position)
         else:  # otherwise add the new element
-            if self._duplicates:
+            if not self._duplicates:
                 self._positions[value] = self.size
             self._array.append((key, value))
             self.size += 1
@@ -52,7 +52,7 @@ class Heap:
     def _delete(self, i: int) -> Tuple[Any, Any]:
         deleted: Tuple[Any, Any] = self._array[i]
         self._array[i] = self._array[-1]
-        if self._duplicates:
+        if not self._duplicates:
             self._positions[self._array[i][1]] = i  # update position of swapped element
             self._positions.pop(deleted[1])
         self._array.pop()
@@ -84,7 +84,7 @@ class Heap:
         child: Tuple[Any, Any] = self._array[child_index]
 
         if parent > child:
-            if self._duplicates:
+            if not self._duplicates:
                 self._positions[parent[1]] = child_index
                 self._positions[child[1]] = parent_index
             self._array[parent_index] = child
