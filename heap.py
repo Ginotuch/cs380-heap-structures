@@ -2,21 +2,26 @@ from typing import Tuple, List, Dict, Any, Iterable
 
 
 class Heap:
-    def __init__(self, data: Iterable[Tuple[Any, Any]] = None, allow_duplicates: bool = False):
+    def __init__(self, data: Iterable[Tuple] = None, allow_duplicates: bool = False, priorities: bool = True):
         self._array: List[Tuple[Any, Any]] = []
         self._positions: Dict[Any, int] = {}
         self._duplicates: bool = allow_duplicates
+        self._priorities: bool = priorities
         self.size: int = 0
         if data is not None:
             try:
                 for item in data:
+                    if not self._priorities:
+                        item = (item, item)
                     if len(item) != 2:
                         raise Exception("Items must be in format: (key, value) where key is a comparable priority")
                     self.push(item[0], item[1])
             except TypeError as e:
                 raise e
 
-    def push(self, key, value) -> None:  # will also update priority if already in the heap
+    def push(self, key, value=None) -> None:  # will also update priority if already in the heap
+        if not self._priorities:
+            value = key
         if not self._duplicates and value in self._positions:  # If the value is already in the heap, update the priority
             position = self._positions[value]
             if key > self._array[position][0]:
