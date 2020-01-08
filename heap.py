@@ -1,4 +1,4 @@
-from typing import Tuple, List, Dict, Any, Iterable
+from typing import Tuple, List, Dict, Any
 
 
 class Heap:
@@ -8,16 +8,22 @@ class Heap:
         self._duplicates: bool = allow_duplicates
         self._priorities: bool = priorities
         self.size: int = 0
-        if data is not None:
-            try:
-                for item in data:
-                    if not self._priorities:
-                        item = (item, item)
-                    if len(item) != 2:
-                        raise Exception("Items must be in format: (key, value) where key is a comparable priority")
-                    self.push(item[0], item[1])
-            except TypeError as e:
-                raise e
+
+        if data is not None:  # in place-ish ingest
+            self._array = data
+            self.size = len(self._array)
+            for i in range(self.size):
+                if not self._priorities:
+                    self._array[i] = (self._array[i], self._array[i])
+                elif len(self._array[i]) != 2:
+                    raise Exception("Elements must be in format: (key, value) where key is a comparable priority")
+                if not self._duplicates:
+                    if self._array[i][1] in self._positions:  # should it automatically remove duplicates? (if so how)
+                        raise Exception("Duplicates disabled yet duplicate elements exist in input data")
+                    else:
+                        self._positions[self._array[i][1]] = i
+            for i in reversed(range(self.size // 2)):
+                self._heapify_down(i)
 
     def push(self, key, value=None) -> None:  # will also update priority if already in the heap
         if not self._priorities:
