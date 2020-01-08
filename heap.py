@@ -110,6 +110,13 @@ class Heap:
         else:
             return False
 
+    def _check_heap(self):
+        for i in range(self.size // 2):
+            if 2 * i + 1 < self.size:
+                assert self._array[i] <= self._array[2 * i + 1]
+            if 2 * i + 2 < self.size:
+                assert self._array[i] <= self._array[2 * i + 2]
+
 
 if __name__ == "__main__":
     h = Heap([(6, 54), (3, 23)])

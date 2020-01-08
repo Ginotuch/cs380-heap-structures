@@ -46,9 +46,11 @@ class TestSorting(unittest.TestCase):
         for x in range(20):
             list_to_test = TestSorting.get_random_list()
             heap_instance = Heap(list_to_test[:])
+            heap_instance._check_heap()
             index_to_delete = random.randrange(0, len(list_to_test))
             deleted_element = list_to_test.pop(index_to_delete)
             heap_instance.remove(deleted_element[1])
+            heap_instance._check_heap()
             self.assertEqual(heap_instance.peek(), min(list_to_test))
             retrieved_list = TestSorting.insert_and_extract(heap_instance, list_to_test)
             self.assertEqual(sorted(list_to_test), retrieved_list, "Random seed: ({})".format(str(self._seed)))
@@ -63,10 +65,12 @@ class TestSorting(unittest.TestCase):
         for run in range(20):
             list_to_test = TestSorting.get_random_list()
             heap_instance = Heap(list_to_test[:])
+            heap_instance._check_heap()
             for deletion in range(random.randrange(10, 90)):
                 index_to_delete = random.randrange(0, len(list_to_test))
                 deleted_element = list_to_test.pop(index_to_delete)
                 heap_instance.remove(deleted_element[1])
+                heap_instance._check_heap()
             self.assertEqual(heap_instance.peek(), min(list_to_test))
             retrieved_list = TestSorting.insert_and_extract(heap_instance, list_to_test)
             self.assertEqual(sorted(list_to_test), retrieved_list, "Random seed: ({})".format(str(self._seed)))
@@ -79,6 +83,7 @@ class TestSorting(unittest.TestCase):
     def insert_and_extract(heap_instance: Heap, list_to_insert: List[Tuple[Any, Any]]) -> List[Tuple[Any, Any]]:
         for number_tuple in list_to_insert:
             heap_instance.push(number_tuple[0], number_tuple[1])
+        heap_instance._check_heap()
         return TestSorting.retrieve(heap_instance)
 
     @staticmethod
