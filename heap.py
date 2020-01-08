@@ -56,14 +56,18 @@ class Heap:
 
     def _delete(self, i: int) -> Tuple[Any, Any]:
         deleted: Tuple[Any, Any] = self._array[i]
-        self._array[i] = self._array[-1]
+        old_leaf: Tuple[Any, Any] = self._array[-1]
+        self._array[i] = old_leaf
         if not self._duplicates:
             self._positions[self._array[i][1]] = i  # update position of swapped element
             self._positions.pop(deleted[1])
         self._array.pop()
 
         self.size -= 1
-        self._heapify_down(i)
+        if deleted > old_leaf and i < self.size:
+            self._heapify_up(i)
+        else:
+            self._heapify_down(i)
         return deleted
 
     def _heapify_down(self, i: int) -> None:
