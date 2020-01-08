@@ -35,7 +35,7 @@ class Heap:
             if key > self._array[position][0]:
                 self._array[position] = (key, self._array[position][1])
                 self._heapify_down(position)
-            else:
+            elif key < self._array[position][0]:
                 self._array[position] = (key, self._array[position][1])
                 self._heapify_up(position)
         else:  # otherwise add the new element
@@ -83,7 +83,7 @@ class Heap:
             left_child_i = 2 * i + 1
             right_child_i = 2 * i + 2
             big_child_i = left_child_i
-            if right_child_i < self.size and self._array[right_child_i] < self._array[left_child_i]:
+            if right_child_i < self.size and self._array[left_child_i] >= self._array[right_child_i]:
                 big_child_i = right_child_i
             if not self._swap(i, big_child_i):
                 break
