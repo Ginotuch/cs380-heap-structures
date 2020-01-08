@@ -2,7 +2,7 @@ from typing import Tuple, List, Dict, Any, Iterable
 
 
 class Heap:
-    def __init__(self, data: Iterable[Tuple] = None, allow_duplicates: bool = False, priorities: bool = True):
+    def __init__(self, data: List[Tuple] = None, allow_duplicates: bool = False, priorities: bool = True):
         self._array: List[Tuple[Any, Any]] = []
         self._positions: Dict[Any, int] = {}
         self._duplicates: bool = allow_duplicates
@@ -21,6 +21,8 @@ class Heap:
 
     def push(self, key, value=None) -> None:  # will also update priority if already in the heap
         if not self._priorities:
+            if value is not None:
+                raise Exception("Priorities are disabled yet both a key and value were supplied")
             value = key
         if not self._duplicates and value in self._positions:  # If the value is already in the heap, update the priority
             position = self._positions[value]
