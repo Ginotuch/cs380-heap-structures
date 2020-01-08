@@ -9,7 +9,7 @@ class Heap:
         self._priorities: bool = priorities
         self.size: int = 0
 
-        if data is not None:  # in place-ish ingest
+        if data is not None:  # in-place-ish ingest
             self._array = data
             self.size = len(self._array)
             for i in range(self.size):
@@ -22,7 +22,7 @@ class Heap:
                         raise Exception("Duplicates disabled yet duplicate elements exist in input data")
                     else:
                         self._positions[self._array[i][1]] = i
-            for i in reversed(range(self.size // 2)):
+            for i in reversed(range(self.size // 2)):  # in-place heapify
                 self._heapify_down(i)
 
     def push(self, key, value=None) -> None:  # will also update priority if already in the heap
@@ -30,7 +30,7 @@ class Heap:
             if value is not None:
                 raise Exception("Priorities are disabled yet both a key and value were supplied")
             value = key
-        if not self._duplicates and value in self._positions:  # If the value is already in the heap, update the priority
+        if not self._duplicates and value in self._positions:  # updates priority if value already in heap
             position = self._positions[value]
             if key > self._array[position][0]:
                 self._array[position] = (key, self._array[position][1])
