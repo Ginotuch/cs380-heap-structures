@@ -45,7 +45,7 @@ class TestSorting(unittest.TestCase):
         random.seed(self._seed)
         for x in range(20):
             list_to_test = TestSorting.get_random_list()
-            heap_instance = Heap(list_to_test)
+            heap_instance = Heap(list_to_test[:])
             index_to_delete = random.randrange(0, len(list_to_test))
             deleted_element = list_to_test.pop(index_to_delete)
             heap_instance.remove(deleted_element[1])
@@ -62,7 +62,7 @@ class TestSorting(unittest.TestCase):
         random.seed(self._seed)
         for run in range(20):
             list_to_test = TestSorting.get_random_list()
-            heap_instance = Heap(list_to_test)
+            heap_instance = Heap(list_to_test[:])
             for deletion in range(random.randrange(10, 90)):
                 index_to_delete = random.randrange(0, len(list_to_test))
                 deleted_element = list_to_test.pop(index_to_delete)
