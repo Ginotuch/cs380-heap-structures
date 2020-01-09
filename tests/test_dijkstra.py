@@ -34,7 +34,3 @@ class TestDijkstra(unittest.TestCase):
                     distance_text: str = "{:.2f}".format(dist_temp)
                 distance_returns.append(distance_text)
             self.assertEqual(distance_returns, answer_string, "Failed on:" + str(pair))
-
-
-if __name__ == '__main__':
-    unittest.main()
