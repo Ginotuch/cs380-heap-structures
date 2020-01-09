@@ -1,7 +1,7 @@
 import math
 import unittest
 import pickle
-from dijkstra import Dijkstra
+from dijkstra.dijkstra import Dijkstra
 import os
 
 

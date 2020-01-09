@@ -1,7 +1,7 @@
 import random
 from typing import Tuple, List, Any
 
-from heap import Heap
+from heaps.heap import Heap
 
 
 def get_random_list() -> List[Tuple[Any, Any]]:

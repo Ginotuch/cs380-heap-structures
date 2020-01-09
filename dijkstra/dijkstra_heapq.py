@@ -1,6 +1,6 @@
 from math import inf
+import heapq2 as heapq
 
-from heap import Heap
 from generate_graph import RandomConnectedGraph
 from typing import List, Tuple, Union
 
@@ -14,7 +14,7 @@ class Dijkstra:
             self.graph = RandomConnectedGraph(node_count)
             self.graph.gen_graph()
             self.adjacency_list = self.graph.adj_list
-        self.pq: Heap = Heap()
+        self.pq: List = []
         self.colour: List[int] = [0] * len(self.adjacency_list)
         self.dist: List[Dijkstra.Distance] = [inf] * len(self.adjacency_list)
         self.white = 0  # Unexplored nodes
@@ -23,12 +23,12 @@ class Dijkstra:
         self.end_node: int = len(self.adjacency_list) - 1
 
     def start(self):
-        self.pq.push(0, 0)  # Pushing source node 's' to queue. Distance to itself is 0
-        while self.pq.size > 0:
-            t1, u = self.pq.pop()  # 't1' = cost from 's' to 'u'
+        heapq.heappush(self.pq, (0, 0))  # Pushing source node 's' to queue. Distance to itself is 0
+        while self.pq:
+            t1, u = heapq.heappop(self.pq)  # 't1' = cost from 's' to 'u'
 
             if self.colour[u] == self.black:
-                raise Exception("Something went wrong")
+                continue
 
             if u == self.end_node:  # If 'u' is the desired node, then we have already found the shortest path
                 self.dist[u] = t1
@@ -43,11 +43,13 @@ class Dijkstra:
                 if self.colour[node] == self.white:
                     # node has not yet been explored, thus this is best path known
                     self.colour[node] = self.grey
-                    self.pq.push(t2, node)
+                    heapq.heappush(self.pq, (t2, node))
+                    self.dist[node] = t2
 
-                elif self.colour[node] == self.grey and self.pq.get_key(node) > t2:
+                elif self.colour[node] == self.grey and self.dist[node] > t2:
                     # if 's' -> 'u' -> 'node' is better than previously known path then update priority
-                    self.pq.push(t2, node)
+                    heapq.heappush(self.pq, (t2, node))
+                    self.dist[node] = t2
 
             # At this point the fastest path from 's' to 'u' has been found
             # so we mark 'u' as fully explored and record the dist('s', 'u')
@@ -73,11 +75,14 @@ class Dijkstra:
         answers: List[Dijkstra.Distance] = []
         with open(file, 'rb') as infile:
             adjacency_lists: List[List[List[Tuple[Dijkstra.Distance, int]]]] = pickle.load(infile)
+        import time
+        t = time.time()
         for adj in adjacency_lists:
             d = Dijkstra(adj_list=adj)
             answers.append(d.start())
+        print(time.time() - t)
         return answers
 
 
-if __name__ == '__main__':
-    Dijkstra.run_file('tests/dijkstra_input/adj_list.data')
+# if __name__ == '__main__':
+#     Dijkstra.run_file('tests/dijkstra_input/adj_list.data')
