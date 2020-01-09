@@ -76,7 +76,6 @@ class TestSorting(unittest.TestCase):
             retrieved_list = util.insert_and_extract(heap_instance, list_to_test)
             self.assertEqual(sorted(list_to_test), retrieved_list, "Random seed: ({})".format(str(self._seed)))
 
-def test():
-    unittest.main()
+
 if __name__ == '__main__':
     unittest.main()
