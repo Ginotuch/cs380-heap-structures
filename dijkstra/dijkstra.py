@@ -1,8 +1,8 @@
 from math import inf
-
-from heaps.heap import Heap
-from dijkstra.generate_graph import RandomConnectedGraph
 from typing import List, Tuple, Union
+
+from dijkstra.generate_graph import RandomConnectedGraph
+from heaps import HeapQueue
 
 
 class Dijkstra:
@@ -14,7 +14,7 @@ class Dijkstra:
             self.graph = RandomConnectedGraph(node_count)
             self.graph.gen_graph()
             self.adjacency_list = self.graph.adj_list
-        self.pq: Heap = Heap()
+        self.pq: HeapQueue = HeapQueue()
         self.colour: List[int] = [0] * len(self.adjacency_list)
         self.dist: List[Dijkstra.Distance] = [inf] * len(self.adjacency_list)
         self.white = 0  # Unexplored nodes

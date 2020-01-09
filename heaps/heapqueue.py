@@ -1,7 +1,7 @@
 from typing import Tuple, List, Dict, Any
 
 
-class Heap:
+class HeapQueue:
     def __init__(self, data: List[Tuple] = None, allow_duplicates: bool = False, priorities: bool = True):
         self._array: List[Tuple[Any, Any]] = []
         self._positions: Dict[Any, int] = {}
@@ -123,7 +123,7 @@ class Heap:
 
 
 if __name__ == "__main__":
-    h = Heap([(6, 54), (3, 23)])
+    h = HeapQueue([(6, 54), (3, 23)])
     h.push(5, 67)
     h.push(4, 88)
     h.push(6, 55)

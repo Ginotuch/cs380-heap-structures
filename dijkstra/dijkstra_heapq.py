@@ -1,8 +1,8 @@
 from math import inf
-import heapq2 as heapq
-
-from generate_graph import RandomConnectedGraph
 from typing import List, Tuple, Union
+
+import heaps.heapq2 as heapq
+from dijkstra.generate_graph import RandomConnectedGraph
 
 
 class Dijkstra:
