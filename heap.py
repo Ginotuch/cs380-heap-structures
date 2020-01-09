@@ -8,22 +8,8 @@ class Heap:
         self._duplicates: bool = allow_duplicates
         self._priorities: bool = priorities
         self.size: int = 0
-
-        if data is not None:  # in-place-ish ingest
-            self._array = data
-            self.size = len(self._array)
-            for i in range(self.size):
-                if not self._priorities:
-                    self._array[i] = (self._array[i], self._array[i])
-                elif len(self._array[i]) != 2:
-                    raise Exception("Elements must be in format: (key, value) where key is a comparable priority")
-                if not self._duplicates:
-                    if self._array[i][1] in self._positions:  # should it automatically remove duplicates? (if so how)
-                        raise Exception("Duplicates disabled yet duplicate elements exist in input data")
-                    else:
-                        self._positions[self._array[i][1]] = i
-            for i in reversed(range(self.size // 2)):  # in-place heapify
-                self._heapify_down(i)
+        if data is not None:
+            self._heapify(data)
 
     def push(self, key, value=None) -> None:  # will also update priority if already in the heap
         if not self._priorities:
@@ -61,6 +47,24 @@ class Heap:
 
     def get_key(self, value) -> Any:
         return self._array[self._positions[value]][0]
+
+    def _heapify(self, data: List[Tuple]) -> None:  # in-place-ish ingest
+        self._array = data
+        self.size = len(self._array)
+
+        for i in range(self.size):  # checks that elements are in correct format of (key, value)
+            if not self._priorities:
+                self._array[i] = (self._array[i], self._array[i])
+            elif len(self._array[i]) != 2:
+                raise Exception("Elements must be in format: (key, value) where key is a comparable priority")
+            if not self._duplicates:
+                if self._array[i][1] in self._positions:  # should it automatically remove duplicates? (if so how)
+                    raise Exception("Duplicates disabled yet duplicate elements exist in input data")
+                else:
+                    self._positions[self._array[i][1]] = i
+
+        for i in reversed(range(self.size // 2)):  # in-place heapify
+            self._heapify_down(i)
 
     def _delete(self, i: int) -> Tuple[Any, Any]:
         deleted: Tuple[Any, Any] = self._array[i]
