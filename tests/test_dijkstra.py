@@ -9,6 +9,10 @@ class TestDijkstra(unittest.TestCase):
     def test_in_outs(self):
         inputs = "dijkstra_input"
         outputs = "dijkstra_output"
+        if not os.path.exists(inputs):
+            inputs = "tests/dijkstra_input"
+            outputs = "tests/dijkstra_output"
+
         answer_pairs = [
             ('adj_list.data', '1.txt'),
             ('adj_list2.data', '2.txt'),
