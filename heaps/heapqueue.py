@@ -55,6 +55,18 @@ class HeapQueue:
         else:
             raise DuplicatesEnabled
 
+    def exists(self, value) -> bool:
+        # Todo: decide if lookups with duplicates enabled should be allowed since it will be O(n) instead of O(1)
+        if not self._duplicates:
+            return value in self._positions
+        # else:
+        #     raise DuplicatesEnabled
+        else:
+            for element in self._array:  # todo: check speedup with DFS, or checking entire row is greater than
+                if element[1] == value:
+                    return True
+            return False
+
     def _heapify(self, data: List[Tuple]) -> None:  # in-place-ish ingest
         self._array = data
         self.size = len(self._array)
