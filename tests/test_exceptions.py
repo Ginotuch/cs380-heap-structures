@@ -21,24 +21,21 @@ class TestExceptions(unittest.TestCase):
     def test_BadData_too_long(self):
         list_to_test = [(1, 1, 1), (2, 2), (3, 3, 3), (4, 4), (5, 5)]
         with self.assertRaises(heaps.BadData):
-            heap_instance: heaps.HeapQueue = heaps.HeapQueue(list_to_test)
+            heaps.HeapQueue(list_to_test)
 
     def test_BadData_not_Tuple(self):
         list_to_test = [1, (2, 2), 3, (4, 4), (5, 5)]
         with self.assertRaises(heaps.BadData):
-            heap_instance: heaps.HeapQueue = heaps.HeapQueue(list_to_test)
+            heaps.HeapQueue(list_to_test)
 
     def test_BadData_no_raise(self):
         list_to_test = [(1, 1, 1), (2, 2), (3, 3, 3, 3, 3, 3), (4, 4), (5, 5)]
         try:
-            heap_instance: heaps.HeapQueue = heaps.HeapQueue(list_to_test, priorities=False)
+            heaps.HeapQueue(list_to_test, priorities=False)
         except heaps.BadData:
             self.fail("heaps.BadData exception should no be raised")
 
     def test_DuplicateInputs(self):
         list_to_test = [(1, 1), (1, 1), (3, 3), (3, 3), (5, 5)]
         with self.assertRaises(heaps.DuplicateInputs):
-            heap_instance: heaps.HeapQueue = heaps.HeapQueue(list_to_test)
-
-
-
+            heaps.HeapQueue(list_to_test)
