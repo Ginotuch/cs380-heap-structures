@@ -1,8 +1,9 @@
 from typing import Tuple, List, Dict, Any
+from .exceptions import UnexpectedPriority, DuplicatesEnabled, BadData, DuplicateInputs
 
 
 class HeapQueue:
-    def __init__(self, data: List[Tuple] = None, allow_duplicates: bool = False, priorities: bool = True):
+    def __init__(self, data: List = None, allow_duplicates: bool = False, priorities: bool = True):
         self._array: List[Tuple[Any, Any]] = []
         self._positions: Dict[Any, int] = {}
         self._duplicates: bool = allow_duplicates
@@ -14,7 +15,7 @@ class HeapQueue:
     def push(self, key, value=None) -> None:  # will also update priority if already in the heap
         if not self._priorities:
             if value is not None:
-                raise Exception("Priorities are disabled yet both a key and value were supplied")
+                raise UnexpectedPriority
             value = key
         if not self._duplicates and value in self._positions:  # updates priority if value already in heap
             position = self._positions[value]
@@ -32,12 +33,15 @@ class HeapQueue:
             self._heapify_up(self.size - 1)
 
     def remove(self, value) -> Tuple[Any, Any]:
-        try:
-            position: int = self._positions[value]
-        except KeyError:
-            raise KeyError("Value not in heap")
+        if not self._duplicates:
+            try:
+                position: int = self._positions[value]
+            except KeyError:
+                raise KeyError(value)
+            else:
+                return self._delete(position)
         else:
-            return self._delete(position)
+            raise DuplicatesEnabled
 
     def pop(self) -> Tuple[Any, Any]:
         return self._delete(0)
@@ -46,7 +50,10 @@ class HeapQueue:
         return self._array[0]
 
     def get_key(self, value) -> Any:
-        return self._array[self._positions[value]][0]
+        if not self._duplicates:
+            return self._array[self._positions[value]][0]
+        else:
+            raise DuplicatesEnabled
 
     def _heapify(self, data: List[Tuple]) -> None:  # in-place-ish ingest
         self._array = data
@@ -55,11 +62,13 @@ class HeapQueue:
         for i in range(self.size):  # checks that elements are in correct format of (key, value)
             if not self._priorities:
                 self._array[i] = (self._array[i], self._array[i])
+            elif not isinstance(self._array[i], Tuple):
+                raise BadData
             elif len(self._array[i]) != 2:
-                raise Exception("Elements must be in format: (key, value) where key is a comparable priority")
+                raise BadData
             if not self._duplicates:
                 if self._array[i][1] in self._positions:  # should it automatically remove duplicates? (if so how)
-                    raise Exception("Duplicates disabled yet duplicate elements exist in input data")
+                    raise DuplicateInputs
                 else:
                     self._positions[self._array[i][1]] = i
 
