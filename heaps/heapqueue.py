@@ -16,6 +16,11 @@ class HeapQueue:
             self._heapify()
 
     def push(self, priority, value=None) -> None:  # will also update priority if already in the heap
+        """
+        Pushes an element onto the heap by placing at the bottom and sifting up in O(logn) time.
+        Will also update the priority of existing elements if priorities exist and positions are
+        being tracked.
+        """
         if not self._priorities:
             if value is not None:
                 raise UnexpectedPriority
@@ -36,6 +41,7 @@ class HeapQueue:
             self._heapify_up(self.size - 1)
 
     def remove(self, value) -> Tuple[Any, Any]:
+        """Removes the node corresponding to the value if it is in the heap. Takes O(logn) time"""
         if not self._duplicates:
             try:
                 position: int = self._positions[value]
@@ -47,18 +53,25 @@ class HeapQueue:
             raise DuplicatesEnabled
 
     def pop(self) -> Tuple[Any, Any]:
+        """Returns the element at the root fo the heap and removes it. O(logn) time"""
         return self._delete(0)
 
     def peek(self) -> Tuple[Any, Any]:
+        """Returns the element at the root of the heap while keeping it in the heap. O(1) time"""
         return self._array[0]
 
     def get_priority(self, value) -> Any:
+        """
+        Gets the priority of a given value in the heap in O(1) time.
+        Raises appropriate key error if it's not in the heap.
+        """
         if not self._duplicates:
             return self._array[self._positions[value]][0]
         else:
             raise DuplicatesEnabled
 
     def exists(self, value) -> bool:
+        """Checks if a given value is in the heap. O(1) time"""
         # Todo: decide if lookups with duplicates enabled should be allowed since it will be O(n) instead of O(1)
         if not self._duplicates:
             return value in self._positions
@@ -71,6 +84,12 @@ class HeapQueue:
             return False
 
     def extend(self, data: List):
+        """
+        Efficiently extends the heap while maintaining the heap property. Takes O(nlogn) time.
+        This is faster than looping through elements and pushing onto the heap as the heap's
+        array only needs to be extended once using the inbuilt Python method taking advantage of
+        it's C implementation.
+        """
         data_size = len(data)
         old_size = self.size
         self._array.extend(data)
@@ -81,6 +100,10 @@ class HeapQueue:
             self._heapify_up(i)
 
     def _process_data(self, data: List, start_index: int = 0):
+        """
+        Checks and converts input data depending on properties set (duplicates/priorities enabled/disabled)
+        This takes O(n) time, and at most O(n) extra space
+        """
         size = len(data)
 
         for i in range(start_index, size):  # checks that elements are in correct format of (priority, value)
@@ -96,11 +119,13 @@ class HeapQueue:
                 else:
                     self._positions[data[i][1]] = i
 
-    def _heapify(self) -> None:  # in-place heapify
+    def _heapify(self) -> None:
+        """Inplace manipulation of the heap resulting in a satisfied heap property in O(nlogn) time"""
         for i in reversed(range(self.size // 2)):
             self._heapify_down(i)
 
     def _delete(self, i: int) -> Tuple[Any, Any]:
+        """Deletes the element at a given index while maintaining the heap property in O(logn) time"""
         deleted: Tuple[Any, Any] = self._array[i]
         old_leaf: Tuple[Any, Any] = self._array[-1]
         self._array[i] = old_leaf
@@ -117,6 +142,7 @@ class HeapQueue:
         return deleted
 
     def _heapify_down(self, i: int) -> None:
+        """Moves element down the heap until its children are larger, or becomes a leaf. O(logn) time"""
         while 2 * i + 1 < self.size:
             left_child_i = 2 * i + 1
             right_child_i = 2 * i + 2
@@ -128,13 +154,18 @@ class HeapQueue:
             i = big_child_i
 
     def _heapify_up(self, i: int) -> None:
+        """Swaps element with parent until parent is smaller or reaches root. O(logn) time"""
         while i > 0:
             parent_index: int = (i - 1) >> 1
             if not self._swap(parent_index, i):
                 break
             i = parent_index
 
-    def _swap(self, parent_index: int, child_index: int) -> bool:  # If no swap happens then heapify is complete
+    def _swap(self, parent_index: int, child_index: int) -> bool:
+        """
+        Checks if the two elements should be swapped and swaps in O(1) time.
+        Returns True/False depending if a swap happens or not.
+        """
         parent: Tuple[Any, Any] = self._array[parent_index]
         child: Tuple[Any, Any] = self._array[child_index]
 
@@ -147,14 +178,3 @@ class HeapQueue:
             return True
         else:
             return False
-
-
-if __name__ == "__main__":
-    h = HeapQueue([(6, 54), (3, 23)])
-    h.push(5, 67)
-    h.push(4, 88)
-    h.push(6, 55)
-    h.push(1, 20)
-    h.pop()
-    print()
-    print()
