@@ -57,7 +57,8 @@ class TestHeapQueue(unittest.TestCase):
     def test__heapify(self):
         list_to_test = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
         heap_instance = HeapQueue()
-        heap_instance._heapify(list_to_test[:])
+        heap_instance._array = list_to_test[:]
+        heap_instance._heapify()
         util.check_heap(heap_instance, self)
 
     def test__delete(self):

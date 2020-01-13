@@ -10,7 +10,10 @@ class HeapQueue:
         self._priorities: bool = priorities
         self.size: int = 0
         if data is not None:
-            self._heapify(data)
+            self._process_data(data)
+            self._array = data
+            self.size = len(self._array)
+            self._heapify()
 
     def push(self, priority, value=None) -> None:  # will also update priority if already in the heap
         if not self._priorities:
@@ -67,24 +70,24 @@ class HeapQueue:
                     return True
             return False
 
-    def _heapify(self, data: List[Tuple]) -> None:  # in-place-ish ingest
-        self._array = data
-        self.size = len(self._array)
+    def _process_data(self, data: List):
+        size = len(data)
 
-        for i in range(self.size):  # checks that elements are in correct format of (priority, value)
+        for i in range(size):  # checks that elements are in correct format of (priority, value)
             if not self._priorities:
-                self._array[i] = (self._array[i], self._array[i])
-            elif not isinstance(self._array[i], Tuple):
+                data[i] = (data[i], data[i])
+            elif not isinstance(data[i], Tuple):
                 raise BadData
-            elif len(self._array[i]) != 2:
+            elif len(data[i]) != 2:
                 raise BadData
             if not self._duplicates:
-                if self._array[i][1] in self._positions:  # should it automatically remove duplicates? (if so how)
+                if data[i][1] in self._positions:  # should it automatically remove duplicates? (if so how)
                     raise DuplicateInputs
                 else:
-                    self._positions[self._array[i][1]] = i
+                    self._positions[data[i][1]] = i
 
-        for i in reversed(range(self.size // 2)):  # in-place heapify
+    def _heapify(self) -> None:  # in-place heapify
+        for i in reversed(range(self.size // 2)):
             self._heapify_down(i)
 
     def _delete(self, i: int) -> Tuple[Any, Any]:

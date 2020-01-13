@@ -25,8 +25,9 @@ def retrieve(heap_instance: HeapQueue) -> List[Tuple[Any, Any]]:
 
 
 def check_heap(heap_instance: HeapQueue, test_object: unittest.TestCase):
-    for i in range(heap_instance.size // 2):
-        if 2 * i + 1 < heap_instance.size:
+    size = len(heap_instance._array)
+    for i in range(size // 2):
+        if 2 * i + 1 < size:
             test_object.assertLessEqual(heap_instance._array[i], heap_instance._array[2 * i + 1])
-        if 2 * i + 2 < heap_instance.size:
+        if 2 * i + 2 < size:
             test_object.assertLessEqual(heap_instance._array[i], heap_instance._array[2 * i + 2])
