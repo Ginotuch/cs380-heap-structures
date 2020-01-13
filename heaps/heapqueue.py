@@ -3,32 +3,32 @@ from .exceptions import UnexpectedPriority, DuplicatesEnabled, BadData, Duplicat
 
 
 class HeapQueue:
-    def __init__(self, data: List = None, allow_duplicates: bool = False, priorities: bool = True):
+    def __init__(self, data: List = None, duplicates: bool = False, priorities: bool = True):
         self._array: List[Tuple[Any, Any]] = []
         self._positions: Dict[Any, int] = {}
-        self._duplicates: bool = allow_duplicates
+        self._duplicates: bool = duplicates
         self._priorities: bool = priorities
         self.size: int = 0
         if data is not None:
             self._heapify(data)
 
-    def push(self, key, value=None) -> None:  # will also update priority if already in the heap
+    def push(self, priority, value=None) -> None:  # will also update priority if already in the heap
         if not self._priorities:
             if value is not None:
                 raise UnexpectedPriority
-            value = key
+            value = priority
         if not self._duplicates and value in self._positions:  # updates priority if value already in heap
             position = self._positions[value]
-            if key > self._array[position][0]:
-                self._array[position] = (key, self._array[position][1])
+            if priority > self._array[position][0]:
+                self._array[position] = (priority, self._array[position][1])
                 self._heapify_down(position)
-            elif key < self._array[position][0]:
-                self._array[position] = (key, self._array[position][1])
+            elif priority < self._array[position][0]:
+                self._array[position] = (priority, self._array[position][1])
                 self._heapify_up(position)
         else:  # otherwise add the new element
             if not self._duplicates:
                 self._positions[value] = self.size
-            self._array.append((key, value))
+            self._array.append((priority, value))
             self.size += 1
             self._heapify_up(self.size - 1)
 
@@ -49,7 +49,7 @@ class HeapQueue:
     def peek(self) -> Tuple[Any, Any]:
         return self._array[0]
 
-    def get_key(self, value) -> Any:
+    def get_priority(self, value) -> Any:
         if not self._duplicates:
             return self._array[self._positions[value]][0]
         else:
@@ -71,7 +71,7 @@ class HeapQueue:
         self._array = data
         self.size = len(self._array)
 
-        for i in range(self.size):  # checks that elements are in correct format of (key, value)
+        for i in range(self.size):  # checks that elements are in correct format of (priority, value)
             if not self._priorities:
                 self._array[i] = (self._array[i], self._array[i])
             elif not isinstance(self._array[i], Tuple):

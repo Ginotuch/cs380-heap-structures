@@ -45,7 +45,7 @@ class Dijkstra:
                     self.colour[node] = self.grey
                     self.pq.push(t2, node)
 
-                elif self.colour[node] == self.grey and self.pq.get_key(node) > t2:
+                elif self.colour[node] == self.grey and self.pq.get_priority(node) > t2:
                     # if 's' -> 'u' -> 'node' is better than previously known path then update priority
                     self.pq.push(t2, node)
 

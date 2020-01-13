@@ -12,11 +12,11 @@ class TestExceptions(unittest.TestCase):
 
     def test_DuplicatesEnabled(self):
         list_to_test = [(1, 1), (1, 1), (3, 3), (3, 3), (5, 5)]
-        heap_instance: heaps.HeapQueue = heaps.HeapQueue(list_to_test, allow_duplicates=True)
+        heap_instance: heaps.HeapQueue = heaps.HeapQueue(list_to_test, duplicates=True)
         with self.assertRaises(heaps.DuplicatesEnabled):
             heap_instance.remove(1)
         with self.assertRaises(heaps.DuplicatesEnabled):
-            heap_instance.get_key(1)
+            heap_instance.get_priority(1)
 
     def test_BadData_too_long(self):
         list_to_test = [(1, 1, 1), (2, 2), (3, 3, 3), (4, 4), (5, 5)]

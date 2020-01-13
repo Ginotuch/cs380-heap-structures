@@ -1,6 +1,6 @@
 class UnexpectedPriority(TypeError):
     def __init__(self):
-        TypeError.__init__(self, "Priorities are disabled yet both a key and value were supplied")
+        TypeError.__init__(self, "Priorities are disabled yet both a priority and value were supplied")
 
 
 class DuplicatesEnabled(Exception):
@@ -10,7 +10,7 @@ class DuplicatesEnabled(Exception):
 
 class BadData(Exception):
     def __init__(self):
-        Exception.__init__(self, "Elements must be in format: (key, value)")
+        Exception.__init__(self, "Elements must be in format: (priority, value)")
 
 
 class DuplicateInputs(Exception):

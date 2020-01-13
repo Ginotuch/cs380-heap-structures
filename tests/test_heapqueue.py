@@ -38,14 +38,14 @@ class TestHeapQueue(unittest.TestCase):
         heap_instance.pop()
         self.assertEqual(heap_instance.peek(), (2, 2))
 
-    def test_get_key(self):
+    def test_get_priority(self):
         test_tuple_element = (99, 4567)
         list_to_test = [(1, "test1"), (2, 56), (3, 3), (4, 4), (5, 5), (20, test_tuple_element)]
         heap_instance = HeapQueue(list_to_test[:])
-        self.assertEqual(heap_instance.get_key("test1"), 1)
-        self.assertEqual(heap_instance.get_key(56), 2)
-        self.assertEqual(heap_instance.get_key(4), 4)
-        self.assertEqual(heap_instance.get_key(test_tuple_element), 20)
+        self.assertEqual(heap_instance.get_priority("test1"), 1)
+        self.assertEqual(heap_instance.get_priority(56), 2)
+        self.assertEqual(heap_instance.get_priority(4), 4)
+        self.assertEqual(heap_instance.get_priority(test_tuple_element), 20)
 
     def test_exists(self):
         list_to_test = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
