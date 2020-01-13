@@ -15,7 +15,7 @@ class HeapQueue:
             self.size = len(self._array)
             self._heapify()
 
-    def push(self, priority, value=None) -> None:  # will also update priority if already in the heap
+    def push(self, priority, value=None) -> None:
         """
         Pushes an element onto the heap by placing at the bottom and sifting up in O(logn) time.
         Will also update the priority of existing elements if priorities exist and positions are
