@@ -8,13 +8,18 @@ A heap based priority queue implementation to demonstrate improvements
  using a dictionary.
  
 Feature improvements:
-* *O(1)* lookup of any value's current priority with *HeapQueue.get_key(value)*
-* Ability to modify the priority of any value in the heap in *O(logn)* time
+* *O(1)* lookup of any value's current priority with *HeapQueue.get_priority(value)*
+* *O(logn)* modification of the priority for any value already in the heap
 * *O(logn)* arbitrary element deletion with *HeapQueue.remove(value)*
 
 ## dijkstra package
 An implementation of the dijkstra path finding algorithm as an example
  application for HeapQueue.
+
+## heapq2.py
+This is the standard heap based priority queue library with the C importing
+removed. Used to better compare speeds/operations with the custom HeapQueue
+class.
 
 ---
 ### Requirements
