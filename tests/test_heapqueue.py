@@ -54,6 +54,17 @@ class TestHeapQueue(unittest.TestCase):
             with self.subTest(msg="exists element: " + str(element)):
                 self.assertTrue(heap_instance.exists(element[1]))
 
+    def test_extend(self):
+        list_to_test = [(10, 10), (20, 20), (30, 30), (40, 40), (50, 50)]
+        list_to_extend = [(1, 1), (4, 4), (15, 15), (25, 25), (35, 35), (45, 45), (55, 55)]
+        full_list = sorted(list_to_test + list_to_extend)
+        heap_instance = HeapQueue(list_to_test[:])
+        heap_instance.extend(list_to_extend)
+        self.assertEqual(heap_instance.size, len(heap_instance._array))
+        util.check_heap(heap_instance, self)
+        retrieved_list = util.retrieve(heap_instance)
+        self.assertEqual(full_list, retrieved_list)
+
     def test__process_data(self):
         list_to_test_in = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
         list_to_test_check = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]

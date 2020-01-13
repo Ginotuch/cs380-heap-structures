@@ -70,10 +70,20 @@ class HeapQueue:
                     return True
             return False
 
-    def _process_data(self, data: List):
+    def extend(self, data: List):
+        data_size = len(data)
+        old_size = self.size
+        self._array.extend(data)
+        self._process_data(self._array, old_size)
+        self.size = self.size + data_size
+
+        for i in range(old_size, self.size):
+            self._heapify_up(i)
+
+    def _process_data(self, data: List, start_index: int = 0):
         size = len(data)
 
-        for i in range(size):  # checks that elements are in correct format of (priority, value)
+        for i in range(start_index, size):  # checks that elements are in correct format of (priority, value)
             if not self._priorities:
                 data[i] = (data[i], data[i])
             elif not isinstance(data[i], Tuple):
