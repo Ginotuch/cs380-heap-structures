@@ -135,7 +135,6 @@ class TestHeapQueue(unittest.TestCase):
         random.seed(self._seed)
         list_to_test = util.get_random_list()
         heap_instance = HeapQueue(list_to_test[:])
-        heap_instance.size += 1
         new_big_element = max(list_to_test)
         new_big_element = (new_big_element[0] + random.randrange(20), new_big_element[1] + random.randrange(20))
         heap_instance._array = [new_big_element] + heap_instance._array[1:]
@@ -159,6 +158,6 @@ class TestHeapQueue(unittest.TestCase):
         self.assertFalse(heap_instance._swap(0, 1))
         temp_element = heap_instance._array[1]
         heap_instance._array[1] = heap_instance._array[0]
-        heap_instance._array[0] = temp_element
+        heap_instance._array[0] = (temp_element[0] + 1, temp_element[1] + 1)
         self.assertTrue(heap_instance._swap(0, 1))
         self.assertFalse(heap_instance._swap(0, 1))

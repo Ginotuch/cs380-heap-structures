@@ -67,7 +67,7 @@ class TestHeapQueue(unittest.TestCase):
 
     def test__process_data(self):
         list_to_test_in = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
-        list_to_test_check = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+        list_to_test_check = list_to_test_in[:]
         heap_instance = HeapQueue()
         heap_instance._process_data(list_to_test_in)
         self.assertEqual(list_to_test_in, list_to_test_check, msg="Input should not change")
@@ -85,9 +85,10 @@ class TestHeapQueue(unittest.TestCase):
         self.assertEqual(list_to_test_in, list_to_test_check, msg="Not correctly handling duplicates")
 
     def test__heapify(self):
-        list_to_test = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+        list_to_test = [(5, 5), (4, 4), (3, 3), (2, 2), (1, 1)]
         heap_instance = HeapQueue()
         heap_instance._array = list_to_test[:]
+        heap_instance.size = len(list_to_test)
         heap_instance._heapify()
         util.check_heap(heap_instance, self)
 
@@ -104,8 +105,7 @@ class TestHeapQueue(unittest.TestCase):
     def test__heapify_down(self):
         list_to_test = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
         heap_instance = HeapQueue(list_to_test[:])
-        heap_instance.size += 1
-        heap_instance._array = [(99, 99)] + heap_instance._array
+        heap_instance._array = [(99, 99)] + heap_instance._array[1:]
         heap_instance._heapify_down(0)
         util.check_heap(heap_instance, self)
 
