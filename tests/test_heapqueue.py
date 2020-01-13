@@ -54,6 +54,25 @@ class TestHeapQueue(unittest.TestCase):
             with self.subTest(msg="exists element: " + str(element)):
                 self.assertTrue(heap_instance.exists(element[1]))
 
+    def test__process_data(self):
+        list_to_test_in = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+        list_to_test_check = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+        heap_instance = HeapQueue()
+        heap_instance._process_data(list_to_test_in)
+        self.assertEqual(list_to_test_in, list_to_test_check, msg="Input should not change")
+
+        list_to_test_in = [1, 2, 3, 4, 5]
+        list_to_test_check = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+        heap_instance = HeapQueue(priorities=False)
+        heap_instance._process_data(list_to_test_in)
+        self.assertEqual(list_to_test_in, list_to_test_check, msg="Input data not converted to tuples")
+
+        list_to_test_in = [(1, 1), (1, 1), (3, 3), (4, 4), (5, 5)]
+        list_to_test_check = [(1, 1), (1, 1), (3, 3), (4, 4), (5, 5)]
+        heap_instance = HeapQueue(duplicates=True)
+        heap_instance._process_data(list_to_test_in)
+        self.assertEqual(list_to_test_in, list_to_test_check, msg="Not correctly handling duplicates")
+
     def test__heapify(self):
         list_to_test = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
         heap_instance = HeapQueue()
