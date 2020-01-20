@@ -28,8 +28,6 @@ Example output with 10^7 updates on an Intel i5-8250U (8 cores) @ 3.4GHz:
   >  Heap size: 10000001
   >  Time taken: 45.66s
   >  After heapq RAM usage: 1067.94MB
-
-
 """
 
 from heaps import HeapQueue, heapq2
