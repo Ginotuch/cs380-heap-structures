@@ -19,6 +19,15 @@ class RandomConnectedGraph:
             for dest_town_i in connect_to:
                 self.make_edge(town_i, dest_town_i, random.randrange(100))
 
+    def get_bad_graph(self) -> None:
+        """Creates a graph that slows down heapq implementation of Dijkstra"""
+        cost: int = self.town_count * 2
+        for town_i in range(0, self.town_count - 1):
+            self.make_edge(town_i, town_i + 1, 0)
+            self.make_edge(town_i, self.town_count - 1, cost)
+            cost = cost - 1
+        self.make_edge(self.town_count - 2, self.town_count - 1, cost)
+
     def make_edge(self, town1, town2, cost) -> None:
         self.adj_list[town1].append((town2, cost))
         self.adj_list[town2].append((town1, cost))
