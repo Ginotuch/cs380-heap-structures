@@ -57,7 +57,7 @@ class Dijkstra:
             # so we mark 'u' as fully explored and record the dist('s', 'u')
             self.colour[u] = self.black
             self.dist[u] = t1
-        print("Average size of heap:", sum(sizes) / len(sizes))
+        print(" Average size of heap:", sum(sizes) / len(sizes))
         return self.dist[self.end_node]
 
     @staticmethod
