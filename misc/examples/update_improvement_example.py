@@ -33,14 +33,7 @@ Example output with 10^7 updates on an Intel i5-8250U (8 cores) @ 3.4GHz:
 
 from heaps import HeapQueue, heapq2
 import time
-import os
-import psutil
-
-process = psutil.Process(os.getpid())
-
-
-def mem():
-    return "RAM usage: " + str(round(process.memory_info().rss * 1e-6, 2)) + "MB"
+from misc.debug_versions.util import mem
 
 
 print("Before anything", mem(), "\n")
