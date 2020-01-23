@@ -7,10 +7,11 @@ same functionality as with HeapQueue duplicate nodes must be
 pushed onto the heap with lower priorities than the previously
 added node. Then in a real application when popping from the
 heapq's heap, all duplicate values have to be skipped over,
-causing pop()'s runtime to worsen from O(logn) to O(mlog(n + m)
-where m is the number of updates done to all nodes so far.
-This also means that pushing onto the heap is slower which
-changes the runtime of push() from O(logn) to O(log(n + m)).
+causing pop()'s worstcase runtime to grow from Omega(logn) to
+Omega(mlog(n + m) where m is the number of updates done to all
+nodes so far. This also means that pushing onto the heap is
+slower which changes the worstcase runtime of push() from
+Omega(logn) to Omega(log(n + m)).
 
 This causes a large amount of memory usage, and much slower
 pushes onto the heap because of all the duplicate nodes that a
@@ -57,6 +58,19 @@ print(" Heap size:", h.size)
 print(" Time taken:", str(round(time.time() - t, 2)) + "s")
 
 print(" After HeapQueue", mem(), "\n")
+h.peek()  # just to avoid garbage collector
+h = None
+
+print("Starting HeapQueue with no position tracking")
+h = HeapQueue(duplicates=True)
+h.push(0.5, node_value)
+t = time.time()
+for x in range(updates, 0, -1):
+    h.push(x, node_value)
+print(" Heap size:", h.size)
+print(" Time taken:", str(round(time.time() - t, 2)) + "s")
+
+print(" After HeapQueue with no position tracking", mem(), "\n")
 h.peek()  # just to avoid garbage collector
 h = None
 
