@@ -56,6 +56,7 @@ class Dijkstra:
             self.colour[u] = self.black
             self.dist[u] = t1
         print(" Average size of heap:", sum(sizes) / len(sizes))
+        print(" Largest size of heap:", max(sizes))
         return self.dist[self.end_node]
 
     @staticmethod
