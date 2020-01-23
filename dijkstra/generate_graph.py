@@ -3,7 +3,9 @@ from typing import List, Tuple
 
 
 class RandomConnectedGraph:
-    def __init__(self, town_count: int = None):
+    def __init__(self, town_count: int = None, random_seed: int = None):
+        if random_seed is not None:
+            random.seed(random_seed)
         self.town_count: int = town_count
         if town_count is None:
             self.town_count = random.randrange(10 ** 3, 10 ** 4)
