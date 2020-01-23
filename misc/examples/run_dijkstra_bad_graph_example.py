@@ -16,9 +16,9 @@ Example output with 10^6 nodes on an Intel i5-8250U (8 cores) @ 3.4GHz:
 """
 
 import time
-from misc.examples.dijkstra_example.dijkstra import Dijkstra
-from misc.examples.dijkstra_example.dijkstra_heapqueue_no_tracking import Dijkstra as Dijkstra_no_tracking
-from misc.examples.dijkstra_example.dijkstra_heapq import Dijkstra as Dijkstra_heapq
+from misc.debug_versions.dijkstra import Dijkstra
+from misc.debug_versions.dijkstra_heapqueue_no_tracking import Dijkstra as Dijkstra_no_tracking
+from misc.debug_versions.dijkstra_heapq import Dijkstra as Dijkstra_heapq
 from dijkstra.generate_graph import RandomConnectedGraph
 
 graph = RandomConnectedGraph(10 ** 6)
