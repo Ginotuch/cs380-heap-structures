@@ -30,51 +30,38 @@ Example output with 10^7 updates on an Intel i5-8250U (8 cores) @ 3.4GHz:
   >  Time taken: 45.66s
   >  After heapq RAM usage: 1067.94MB
 """
-
-from heaps import HeapQueue, heapq2
 import time
 from misc.debug_versions.util import mem
+from typing import List
+from heaps.wrappers import HeapWrapper, HeapQueueWrapped, HeapqWrapped
+
+
+def f() -> List[HeapWrapper]:
+    return [
+        HeapQueueWrapped(name="HeapQueue"),
+        HeapQueueWrapped(name="HeapQueue with duplicates", duplicates=True),
+        HeapqWrapped(name="Heapq")
+    ]
 
 
 print("Before anything", mem(), "\n")
 
 node_value = 0
-updates = 10 ** 7
 
-print("Starting HeapQueue")
-h = HeapQueue()
-h.push(0.5, node_value)
-t = time.time()
-for x in range(updates, 0, -1):
-    h.push(x, node_value)
-print(" Heap size:", h.size)
-print(" Time taken:", str(round(time.time() - t, 2)) + "s")
-
-print(" After HeapQueue", mem(), "\n")
-h.peek()  # just to avoid garbage collector
-h = None
-
-print("Starting HeapQueue with no position tracking")
-h = HeapQueue(duplicates=True)
-h.push(0.5, node_value)
-t = time.time()
-for x in range(updates, 0, -1):
-    h.push(x, node_value)
-print(" Heap size:", h.size)
-print(" Time taken:", str(round(time.time() - t, 2)) + "s")
-
-print(" After HeapQueue with no position tracking", mem(), "\n")
-h.peek()  # just to avoid garbage collector
-h = None
-
-print("Starting heapq")
-hq = []
-heapq2.heappush(hq, (0.5, node_value))
-t = time.time()
-for x in range(updates, 0, -1):
-    heapq2.heappush(hq, (x, node_value))
-print(" Heap size:", len(hq))
-print(" Time taken:", str(round(time.time() - t, 2)) + "s")
-
-print(" After heapq", mem())
-hq[0] = 0  # just to avoid garbage collector
+for power in range(1, 7 + 1):
+    updates: int = 10 ** power
+    print()
+    print("=" * 15)
+    print("Updates: 10^{:d}".format(power))
+    print("=" * 15)
+    for heap_i, heap in enumerate((heaps := f())):
+        t = time.time()
+        print("Starting {} \ncurrent {}".format(heap.name, mem()))
+        heap.push(0.5, node_value)
+        for x in range(updates, 0, -1):
+            heap.push(x, node_value)
+        print(" Heap size:", heap.size())
+        print(" Time taken:", str(round(time.time() - t, 2)) + "s")
+        print(" After", heap.name, mem(), "\n")
+        heap.peek()  # avoid garbage collector before memory check
+        heaps[heap_i] = None  # induce garbage collector to clear memory
