@@ -9,7 +9,7 @@ from misc.debug_versions.wrappers import HeapWrapper, HeapqWrapped, HeapQueueWra
 for power in range(2, 21, 2):
     print()
     print("=" * 15)
-    print("Updates: 2^{:d} - 2".format(power))
+    print("Nodes: 2^{:d} - 2".format(power))
     print("=" * 15)
 
     node_count = 2 ** power - 2
