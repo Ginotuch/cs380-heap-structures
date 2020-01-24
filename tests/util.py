@@ -31,3 +31,15 @@ def check_heap(heap_instance: HeapQueue, test_object: unittest.TestCase):
             test_object.assertLessEqual(heap_instance._array[i], heap_instance._array[2 * i + 1])
         if 2 * i + 2 < size:
             test_object.assertLessEqual(heap_instance._array[i], heap_instance._array[2 * i + 2])
+
+
+def check_heap_no_assert(heap_array: List):
+    size = len(heap_array)
+    for i in range(size // 2):
+        if 2 * i + 1 < size:
+            if not heap_array[i] <= heap_array[2 * i + 1]:
+                return False
+        if 2 * i + 2 < size:
+            if not heap_array[i] <= heap_array[2 * i + 2]:
+                return False
+    return True
