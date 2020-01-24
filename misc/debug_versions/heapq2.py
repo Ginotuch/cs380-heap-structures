@@ -203,14 +203,19 @@ def _heapify_max(x):
 # 'heap' is a heap at all indices >= startpos, except possibly for pos.  pos
 # is the index of a leaf with a possibly out-of-order value.  Restore the
 # heap invariant.
+swaps = 0
+siftdown_loops = 0
 def _siftdown(heap, startpos, pos):
+    global siftdown_loops, swaps
     newitem = heap[pos]
     # Follow the path to the root, moving parents down until finding a place
     # newitem fits.
     while pos > startpos:
+        siftdown_loops += 1
         parentpos = (pos - 1) >> 1
         parent = heap[parentpos]
         if newitem < parent:
+            swaps += 1
             heap[pos] = parent
             pos = parentpos
             continue
@@ -256,22 +261,23 @@ def _siftdown(heap, startpos, pos):
 # heappop() compares):  list.sort() is (unsurprisingly!) more efficient
 # for sorting.
 
-loops = 0
+siftup_loops = 0
 
 def _siftup(heap, pos):
-    global loops
+    global siftup_loops, swaps
     endpos = len(heap)
     startpos = pos
     newitem = heap[pos]
     # Bubble up the smaller child until hitting a leaf.
     childpos = 2*pos + 1    # leftmost child position
     while childpos < endpos:
-        loops += 1
+        siftup_loops += 1
         # Set childpos to index of smaller child.
         rightpos = childpos + 1
         if rightpos < endpos and not heap[childpos] < heap[rightpos]:
             childpos = rightpos
         # Move the smaller child up.
+        swaps += 1
         heap[pos] = heap[childpos]
         pos = childpos
         childpos = 2*pos + 1
@@ -281,13 +287,11 @@ def _siftup(heap, pos):
     _siftdown(heap, startpos, pos)
 
 def _siftdown_max(heap, startpos, pos):
-    loops = 0
     'Maxheap variant of _siftdown'
     newitem = heap[pos]
     # Follow the path to the root, moving parents down until finding a place
     # newitem fits.
     while pos > startpos:
-        loops += 1
         parentpos = (pos - 1) >> 1
         parent = heap[parentpos]
         if parent < newitem:
@@ -295,8 +299,6 @@ def _siftdown_max(heap, startpos, pos):
             pos = parentpos
             continue
         break
-    if p:
-        print("siftdown loops", loops)
     heap[pos] = newitem
 
 def _siftup_max(heap, pos):
