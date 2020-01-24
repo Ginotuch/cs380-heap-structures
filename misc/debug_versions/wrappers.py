@@ -33,6 +33,18 @@ class HeapWrapper(ABC):
     def swaps(self) -> int:
         pass
 
+    @abstractmethod
+    def reset_heapify_up_loops(self) -> int:
+        pass
+
+    @abstractmethod
+    def reset_heapify_down_loops(self) -> int:
+        pass
+
+    @abstractmethod
+    def reset_swaps(self) -> int:
+        pass
+
 
 class HeapqWrapped(HeapWrapper):
     def __init__(self, **kwargs):
@@ -51,13 +63,22 @@ class HeapqWrapped(HeapWrapper):
         return self.heap[0]
 
     def heapify_up_loops(self) -> int:
-        pass
+        return heapq2.siftdown_loops
 
     def heapify_down_loops(self) -> int:
-        pass
+        return heapq2.siftup_loops
 
     def swaps(self) -> int:
-        pass
+        return heapq2.swaps
+
+    def reset_heapify_up_loops(self) -> None:
+        heapq2.siftdown_loops = 0
+
+    def reset_heapify_down_loops(self) -> None:
+        heapq2.siftup_loops = 0
+
+    def reset_swaps(self) -> None:
+        heapq2.swaps = 0
 
 
 class HeapQueueWrapped(HeapWrapper):
@@ -76,10 +97,19 @@ class HeapQueueWrapped(HeapWrapper):
         return self.heap.peek()
 
     def heapify_up_loops(self) -> int:
-        pass
+        return self.heap.heapify_up_loops
 
     def heapify_down_loops(self) -> int:
-        pass
+        return self.heap.heapify_down_loops
 
     def swaps(self) -> int:
-        pass
+        return self.heap.swaps
+
+    def reset_heapify_up_loops(self) -> None:
+        self.heap.heapify_up_loops = 0
+
+    def reset_heapify_down_loops(self) -> None:
+        self.heap.heapify_down_loops = 0
+
+    def reset_swaps(self) -> None:
+        self.heap.swaps = 0
