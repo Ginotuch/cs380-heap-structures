@@ -21,11 +21,25 @@ class HeapWrapper(ABC):
     def peek(self) -> Tuple[Any, Any]:
         pass
 
+    @abstractmethod
+    def heapify_up_loops(self) -> int:
+        pass
+
+    @abstractmethod
+    def heapify_down_loops(self) -> int:
+        pass
+
+    @abstractmethod
+    def swaps(self) -> int:
+        pass
+
 
 class HeapqWrapped(HeapWrapper):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.heap: list = []
+        self.heap: list = kwargs.get("data", list())
+        if self.size() > 0:
+            heapq2.heapify(self.heap)
 
     def size(self) -> int:
         return len(self.heap)
@@ -36,11 +50,21 @@ class HeapqWrapped(HeapWrapper):
     def peek(self) -> Tuple[Any, Any]:
         return self.heap[0]
 
+    def heapify_up_loops(self) -> int:
+        pass
+
+    def heapify_down_loops(self) -> int:
+        pass
+
+    def swaps(self) -> int:
+        pass
+
 
 class HeapQueueWrapped(HeapWrapper):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.heap: HeapQueue = HeapQueue(duplicates=kwargs.get("duplicates", False))
+        self.heap: HeapQueue = HeapQueue(duplicates=kwargs.get("duplicates", False),
+                                         data=kwargs.get("data", None))
 
     def size(self) -> int:
         return self.heap.size
@@ -50,3 +74,12 @@ class HeapQueueWrapped(HeapWrapper):
 
     def peek(self) -> Tuple[Any, Any]:
         return self.heap.peek()
+
+    def heapify_up_loops(self) -> int:
+        pass
+
+    def heapify_down_loops(self) -> int:
+        pass
+
+    def swaps(self) -> int:
+        pass
