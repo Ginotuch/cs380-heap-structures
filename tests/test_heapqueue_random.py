@@ -89,6 +89,16 @@ class TestHeapQueue(unittest.TestCase):
         retrieved_list = util.retrieve(heap_instance)
         self.assertEqual(full_list, retrieved_list)
 
+    def test_extend_empty_random(self):
+        random.seed(self._seed)
+        list_to_test = util.get_random_list()
+        heap_instance = HeapQueue()
+        heap_instance.extend(list_to_test[:])
+        self.assertEqual(heap_instance.size, len(heap_instance._array))
+        util.check_heap(heap_instance, self)
+        retrieved_list = util.retrieve(heap_instance)
+        self.assertEqual(sorted(list_to_test), retrieved_list)
+
     def test__process_data_random(self):
         random.seed(self._seed)
         list_to_test_in = util.get_random_list()

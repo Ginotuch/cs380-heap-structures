@@ -65,6 +65,15 @@ class TestHeapQueue(unittest.TestCase):
         retrieved_list = util.retrieve(heap_instance)
         self.assertEqual(full_list, retrieved_list)
 
+    def test_extend_empty(self):
+        list_to_test = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+        heap_instance = HeapQueue()
+        heap_instance.extend(list_to_test[:])
+        self.assertEqual(heap_instance.size, len(heap_instance._array))
+        util.check_heap(heap_instance, self)
+        retrieved_list = util.retrieve(heap_instance)
+        self.assertEqual(list_to_test, retrieved_list)
+
     def test__process_data(self):
         list_to_test_in = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
         list_to_test_check = list_to_test_in[:]
