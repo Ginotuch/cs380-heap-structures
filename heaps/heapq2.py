@@ -265,7 +265,7 @@ def _siftup(heap, pos):
     while childpos < endpos:
         # Set childpos to index of smaller child.
         rightpos = childpos + 1
-        if rightpos < endpos and not heap[childpos] < heap[rightpos]:  # todo: inefficient as left >= right not good
+        if rightpos < endpos and not heap[childpos] < heap[rightpos]:
             childpos = rightpos
         # Move the smaller child up.
         heap[pos] = heap[childpos]
