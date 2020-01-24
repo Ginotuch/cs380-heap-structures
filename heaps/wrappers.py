@@ -1,11 +1,11 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from typing import Tuple, Any
 
 from .heapqueue import HeapQueue
 from . import heapq2
 
 
-class HeapWrapper:
+class HeapWrapper(ABC):
     def __init__(self, **kwargs):
         self.name: str = kwargs.get("name", "")
 
