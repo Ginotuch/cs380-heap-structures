@@ -25,9 +25,7 @@ class HeapWrapper(ABC):
 class HeapqWrapped(HeapWrapper):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.heap: list = kwargs.get("data", list())
-        if self.size() > 0:
-            heapq2.heapify(self.heap)
+        self.heap: list = []
 
     def size(self) -> int:
         return len(self.heap)
@@ -42,8 +40,7 @@ class HeapqWrapped(HeapWrapper):
 class HeapQueueWrapped(HeapWrapper):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.heap: HeapQueue = HeapQueue(duplicates=kwargs.get("duplicates", False),
-                                         data=kwargs.get("data", None))
+        self.heap: HeapQueue = HeapQueue(duplicates=kwargs.get("duplicates", False))
 
     def size(self) -> int:
         return self.heap.size

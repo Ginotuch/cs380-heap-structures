@@ -21,12 +21,12 @@ class Dijkstra:
         self.grey = 1  # Partially explored nodes (shortest path not yet known)
         self.black = 2  # Fully explored nodes (shortest path known)
         self.end_node: int = len(self.adjacency_list) - 1
+        self.sizes: List[int] = []
 
     def start(self):
-        sizes = []
         self.pq.push(0, 0)  # Pushing source node 's' to queue. Distance to itself is 0
         while self.pq.size > 0:
-            sizes.append(self.pq.size)
+            self.sizes.append(self.pq.size)
             t1, u = self.pq.pop()  # 't1' = cost from 's' to 'u'
 
             if self.colour[u] == self.black:
@@ -55,8 +55,6 @@ class Dijkstra:
             # so we mark 'u' as fully explored and record the dist('s', 'u')
             self.colour[u] = self.black
             self.dist[u] = t1
-        print(" Average size of heap:", sum(sizes) / len(sizes))
-        print(" Largest size of heap:", max(sizes))
         return self.dist[self.end_node]
 
     @staticmethod
