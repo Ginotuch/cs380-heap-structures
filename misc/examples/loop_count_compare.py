@@ -1,26 +1,36 @@
 """
-Shows a weird case of heapq requiring logn operations for siftup
-even though it's not required.
+Shows a weird case of heapq requiring logn operations for
+heapifydown (siftup in heapq) even though it's not required.
 """
-from misc.debug_versions.heapqueue import HeapQueue
-import misc.debug_versions.heapq2 as heapq
 import time
-nodes = 2**20 - 2
-a = [(1, 1) for x in range(nodes)]
+from typing import List
+from misc.debug_versions.wrappers import HeapWrapper, HeapqWrapped, HeapQueueWrapped
 
-my_heap = HeapQueue(a, duplicates=True)
-print("Starting pop on HeapQueue")
-t = time.time()
-my_heap.heapify_down_loops = 0  # resets number of loops before pop
-my_heap.pop()
-print(" Time taken:", time.time() - t)
-print(" heapifydown loops:", my_heap.heapify_down_loops)
-print()
+for power in range(2, 21, 2):
+    print()
+    print("=" * 15)
+    print("Updates: 2^{:d} - 2".format(power))
+    print("=" * 15)
 
-heapq.heapify(a)
-heapq.p = True
-print("Starting pop on heapq")
-t = time.time()
-heapq.heappop(a)
-print("Time taken:", time.time() - t)
-print(" heapifydown loops:", heapq.loops)
+    node_count = 2 ** power - 2
+    nodes = [(1, 1) for x in range(node_count)]
+    heaps: List[HeapWrapper] = [
+        HeapQueueWrapped(name="HeapQueue duplicates", duplicates=True, data=nodes[:]),
+        HeapqWrapped(name="Heapq", data=nodes[:])
+    ]
+    for heap_i, heap in enumerate(heaps):
+        print("Starting on", heap.name)
+        print(" heapifydown loops:", heap.heapify_down_loops())
+        print(" heapifyup loops:", heap.heapify_up_loops())
+        print(" swaps:", heap.swaps())
+        heap.reset_heapify_down_loops()  # resets number of loops before pop
+        heap.reset_heapify_up_loops()
+        heap.reset_swaps()
+        print(" Reset stats and starting pop:")
+        t = time.time()
+        heap.pop()
+        print("  Time taken:", time.time() - t)
+        print("  heapifydown loops:", heap.heapify_down_loops())
+        print("  heapifyup loops:", heap.heapify_up_loops())
+        print("  swaps:", heap.swaps())
+        print()
