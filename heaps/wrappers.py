@@ -21,6 +21,10 @@ class HeapWrapper(ABC):
     def peek(self) -> Tuple[Any, Any]:
         pass
 
+    @abstractmethod
+    def pop(self) -> Tuple[Any, Any]:
+        pass
+
 
 class HeapqWrapped(HeapWrapper):
     def __init__(self, **kwargs):
@@ -38,6 +42,9 @@ class HeapqWrapped(HeapWrapper):
     def peek(self) -> Tuple[Any, Any]:
         return self.heap[0]
 
+    def pop(self) -> Tuple[Any, Any]:
+        return heapq2.heappop(self.heap)
+
 
 class HeapQueueWrapped(HeapWrapper):
     def __init__(self, **kwargs):
@@ -53,3 +60,6 @@ class HeapQueueWrapped(HeapWrapper):
 
     def peek(self) -> Tuple[Any, Any]:
         return self.heap.peek()
+
+    def pop(self) -> Tuple[Any, Any]:
+        return self.heap.pop()
