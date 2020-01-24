@@ -39,4 +39,4 @@ def e_dist(n1: Tuple[float, float], n2: Tuple[float, float]):
 
 
 if __name__ == '__main__':
-    write_adj_lists('dijkstra_input/1.txt')
+    write_adj_lists('1.txt')
