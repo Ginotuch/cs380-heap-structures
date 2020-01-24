@@ -171,11 +171,11 @@ class HeapQueue:
         Checks if the two elements should be swapped and swaps in O(1) time.
         Returns True/False depending if a swap happens or not.
         """
-        self.swaps += 1
         parent: Tuple[Any, Any] = self._array[parent_index]
         child: Tuple[Any, Any] = self._array[child_index]
 
         if parent > child:
+            self.swaps += 1
             if not self._duplicates:
                 self._positions[parent[1]] = child_index
                 self._positions[child[1]] = parent_index
