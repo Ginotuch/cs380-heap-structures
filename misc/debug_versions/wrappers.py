@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Tuple, Any
+from typing import Tuple, Any, List
 
 from .heapqueue import HeapQueue
 from . import heapq2
@@ -23,6 +23,10 @@ class HeapWrapper(ABC):
 
     @abstractmethod
     def pop(self) -> Tuple[Any, Any]:
+        pass
+
+    @abstractmethod
+    def get_array(self) -> List:
         pass
 
     @abstractmethod
@@ -69,6 +73,9 @@ class HeapqWrapped(HeapWrapper):
     def pop(self) -> Tuple[Any, Any]:
         return heapq2.heappop(self.heap)
 
+    def get_array(self) -> List:
+        return self.heap
+
     def heapify_up_loops(self) -> int:
         return heapq2.siftdown_loops
 
@@ -106,6 +113,8 @@ class HeapQueueWrapped(HeapWrapper):
     def pop(self) -> Tuple[Any, Any]:
         return self.heap.pop()
 
+    def get_array(self) -> List:
+        return self.heap._array
 
     def heapify_up_loops(self) -> int:
         return self.heap.heapify_up_loops
