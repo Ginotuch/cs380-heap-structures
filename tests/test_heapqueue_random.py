@@ -55,9 +55,9 @@ class TestHeapQueue(unittest.TestCase):
     def test_get_priority_random(self):
         random.seed(self._seed)
         element_count = random.randrange(10 ** 2, 10 ** 3)
-        list_values = random.sample(range(1, 10 ** 9), element_count)
+        list_keys = random.sample(range(1, 10 ** 9), element_count)
         list_priorities = random.sample(range(1, 10 ** 9), element_count)
-        list_to_test = [(list_priorities[i], list_values[i]) for i in range(element_count)]
+        list_to_test = [(list_priorities[i], list_keys[i]) for i in range(element_count)]
         heap_instance = HeapQueue(list_to_test[:])
 
         for loop, element in enumerate(list_to_test):

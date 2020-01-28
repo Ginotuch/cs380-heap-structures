@@ -15,18 +15,18 @@ class HeapQueue:
             self.size = len(self._array)
             self._heapify()
 
-    def push(self, priority, value=None) -> None:
+    def push(self, priority, key=None) -> None:
         """
         Pushes an element onto the heap by placing at the bottom and sifting up in O(logn) time.
         Will also update the priority of existing elements if priorities exist and positions are
         being tracked.
         """
         if not self._priorities:
-            if value is not None:
+            if key is not None:
                 raise UnexpectedPriority
-            value = priority
-        if not self._duplicates and value in self._positions:  # updates priority if value already in heap
-            position = self._positions[value]
+            key = priority
+        if not self._duplicates and key in self._positions:  # updates priority if key already in heap
+            position = self._positions[key]
             if priority > self._array[position][0]:
                 self._array[position] = (priority, self._array[position][1])
                 self._heapify_down(position)
@@ -35,18 +35,18 @@ class HeapQueue:
                 self._heapify_up(position)
         else:  # otherwise add the new element
             if not self._duplicates:
-                self._positions[value] = self.size
-            self._array.append((priority, value))
+                self._positions[key] = self.size
+            self._array.append((priority, key))
             self.size += 1
             self._heapify_up(self.size - 1)
 
-    def remove(self, value) -> Tuple[Any, Any]:
-        """Removes the node corresponding to the value if it is in the heap. Takes O(logn) time"""
+    def remove(self, key) -> Tuple[Any, Any]:
+        """Removes the node corresponding to the key if it is in the heap. Takes O(logn) time"""
         if not self._duplicates:
             try:
-                position: int = self._positions[value]
+                position: int = self._positions[key]
             except KeyError:
-                raise KeyError(value)
+                raise KeyError(key)
             else:
                 return self._delete(position)
         else:
@@ -60,26 +60,26 @@ class HeapQueue:
         """Returns the element at the root of the heap while keeping it in the heap. O(1) time"""
         return self._array[0]
 
-    def get_priority(self, value) -> Any:
+    def get_priority(self, key) -> Any:
         """
-        Gets the priority of a given value in the heap in O(1) time.
+        Gets the priority of a given key in the heap in O(1) time.
         Raises appropriate key error if it's not in the heap.
         """
         if not self._duplicates:
-            return self._array[self._positions[value]][0]
+            return self._array[self._positions[key]][0]
         else:
             raise DuplicatesEnabled
 
-    def exists(self, value) -> bool:
-        """Checks if a given value is in the heap. O(1) time"""
+    def exists(self, key) -> bool:
+        """Checks if a given key is in the heap. O(1) time"""
         # Todo: decide if lookups with duplicates enabled should be allowed since it will be O(n) instead of O(1)
         if not self._duplicates:
-            return value in self._positions
+            return key in self._positions
         # else:
         #     raise DuplicatesEnabled
         else:
             for element in self._array:  # todo: check speedup with DFS, or checking entire row is greater than
-                if element[1] == value:
+                if element[1] == key:
                     return True
             return False
 
@@ -106,7 +106,7 @@ class HeapQueue:
         """
         size = len(data)
 
-        for i in range(start_index, size):  # checks that elements are in correct format of (priority, value)
+        for i in range(start_index, size):  # checks that elements are in correct format of (priority, key)
             if not self._priorities:
                 data[i] = (data[i], data[i])
             elif not isinstance(data[i], Tuple):

@@ -14,7 +14,7 @@ class HeapWrapper(ABC):
         pass
 
     @abstractmethod
-    def push(self, priority, value) -> None:
+    def push(self, priority, key) -> None:
         pass
 
     @abstractmethod
@@ -64,8 +64,8 @@ class HeapqWrapped(HeapWrapper):
     def size(self) -> int:
         return len(self.heap)
 
-    def push(self, priority, value) -> None:
-        heapq2.heappush(self.heap, (priority, value))
+    def push(self, priority, key) -> None:
+        heapq2.heappush(self.heap, (priority, key))
 
     def peek(self) -> Tuple[Any, Any]:
         return self.heap[0]
@@ -104,8 +104,8 @@ class HeapQueueWrapped(HeapWrapper):
     def size(self) -> int:
         return self.heap.size
 
-    def push(self, priority, value) -> None:
-        self.heap.push(priority, value)
+    def push(self, priority, key) -> None:
+        self.heap.push(priority, key)
 
     def peek(self) -> Tuple[Any, Any]:
         return self.heap.peek()

@@ -8,9 +8,9 @@ A heap based priority queue implementation to demonstrate improvements
  using a dictionary.
  
 Feature improvements:
-* *O(1)* lookup of any value's current priority with *HeapQueue.get_priority(value)*
-* *O(logn)* modification of the priority for any value already in the heap
-* *O(logn)* arbitrary element deletion with *HeapQueue.remove(value)*
+* *O(1)* lookup of any key's current priority with *HeapQueue.get_priority(key)*
+* *O(logn)* modification of the priority for any key already in the heap
+* *O(logn)* arbitrary element deletion with *HeapQueue.remove(key)*
 
 _Note: Although better asymptotic worst cases than standard the library, HeapQueue will
 be slower in most real world applications because of abstraction overhead and not

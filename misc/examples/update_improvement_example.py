@@ -6,7 +6,7 @@ Updating priorities is not supported in heapq, so to get the
 same functionality as with HeapQueue duplicate nodes must be
 pushed onto the heap with lower priorities than the previously
 added node. Then in a real application when popping from the
-heapq's heap, all duplicate values have to be skipped over,
+heapq's heap, all duplicate keys have to be skipped over,
 causing pop()'s worstcase runtime to grow from Omega(logn) to
 Omega(mlog(n + m) where m is the number of updates done to all
 nodes so far. This also means that pushing onto the heap is
@@ -46,7 +46,7 @@ def f() -> List[HeapWrapper]:
 
 print("Before anything", mem(), "\n")
 
-node_value = 0
+node_key = 0
 
 for power in range(1, 7 + 1):
     updates: int = 10 ** power
@@ -57,9 +57,9 @@ for power in range(1, 7 + 1):
     for heap_i, heap in enumerate((heaps := f())):
         t = time.time()
         print("Starting {} \ncurrent {}".format(heap.name, mem()))
-        heap.push(0.5, node_value)
+        heap.push(0.5, node_key)
         for x in range(updates, 0, -1):
-            heap.push(x, node_value)
+            heap.push(x, node_key)
         print(" Heap size:", heap.size())
         print(" Time taken:", str(round(time.time() - t, 2)) + "s")
         print(" After", heap.name, mem(), "\n")
