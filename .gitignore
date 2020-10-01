@@ -112,8 +112,5 @@ venv.bak/
 # personal code snippit tests
 code_snippet_tests.py
 
-# ignore pickled list files
-*.data
-
 # pgf files - matplotlib diagram files
 *.pgf
